@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Basic React App</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+      const rootElement = document.getElementById("root");
+
+      const App = () => {
+        const [message, setMessage] = React.useState("Loading...");
+
+        React.useEffect(() => {
+          fetch("http://localhost:8080/api")
+            .then((response) => response.json())
+            .then((data) => {
+              setMessage(JSON.stringify(data));
+            })
+            .catch((error) => {
+              setMessage("Error fetching from backend");
+              console.error("Fetch error:", error);
+            });
+        }, []);
+
+        return React.createElement("div", null, [
+          React.createElement("h1", { key: 1 }, "🚀 Hello from React!"),
+          React.createElement("p", { key: 2 }, message)
+        ]);
+      };
+
+      ReactDOM.createRoot(rootElement).render(React.createElement(App));
+    </script>
+  </body>
+</html>
